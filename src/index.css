@@ -12,66 +12,179 @@
   html {
     scroll-behavior: smooth;
     font-family: var(--font-sans);
+    background-color: #ffffff;
+    color: #0a0a0a;
+  }
+
+  body {
+    background-color: #ffffff;
+    color: #0a0a0a;
   }
 
   h1, h2, h3, h4, .font-display {
     font-family: var(--font-heading);
+    color: #0a0a0a;
   }
 }
 
-/* Custom scrollbar for technical sleek aesthetic */
+/* Custom scrollbar for clean light aesthetic */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #070d1d;
+  background: #f4f4f5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #d4d4d8;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #a1a1aa;
 }
 
-/* White & Black High-Contrast Architectural Mode */
+/* Universal White Background & Black Texting System */
+body,
 body.theme-bw,
 .theme-bw {
+  background-color: #ffffff !important;
+  color: #0a0a0a !important;
+}
+
+header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e4e4e7 !important;
+  color: #0a0a0a !important;
+}
+
+/* Universal background mapping for sections to clean white and crisp off-white */
+.bg-\[\#070e1e\],
+.bg-\[\#0b1329\] {
+  background-color: #ffffff !important;
+}
+
+.bg-\[\#091124\],
+.bg-\[\#050a17\] {
+  background-color: #fafafa !important;
+}
+
+/* Cards and containers */
+.bg-slate-950,
+.bg-slate-950\/90,
+.bg-slate-950\/80,
+.bg-slate-950\/70,
+.bg-slate-900,
+.bg-slate-900\/90,
+.bg-slate-900\/80,
+.bg-slate-900\/70,
+.bg-slate-900\/60 {
+  background-color: #ffffff !important;
+  border-color: #e4e4e7 !important;
+  color: #09090b !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+.bg-slate-800,
+.bg-slate-800\/80,
+.bg-slate-800\/60 {
+  background-color: #f4f4f5 !important;
+  border-color: #e4e4e7 !important;
+}
+
+.hover\:bg-slate-800:hover,
+.hover\:bg-slate-700:hover {
+  background-color: #e4e4e7 !important;
+}
+
+/* Subtle neutral text colors on light background */
+.text-slate-300,
+.text-slate-400 {
+  color: #52525b !important;
+}
+
+.text-amber-400,
+.text-amber-300,
+.text-amber-500 {
+  color: #09090b !important;
+}
+
+.text-emerald-400,
+.text-emerald-300 {
+  color: #09090b !important;
+}
+
+/* Default headings & paragraphs outside dark surfaces */
+main h1, main h2, main h3, main h4 {
+  color: #09090b;
+}
+
+/* Critical button contrast: Dark buttons must have pure white text */
+.bg-black,
+.bg-black *,
+.bg-neutral-900,
+.bg-neutral-900 *,
+.bg-slate-900.btn,
+button.bg-black,
+button.bg-black *,
+a.bg-black,
+a.bg-black * {
+  color: #ffffff !important;
+}
+
+.bg-black svg,
+.bg-neutral-900 svg {
+  stroke: #ffffff !important;
+}
+
+/* Primary CTA conversion (legacy amber buttons become solid black with crisp white text) */
+.bg-amber-400,
+.bg-amber-500,
+.hover\:bg-amber-300:hover {
   background-color: #000000 !important;
   color: #ffffff !important;
+  border-color: #000000 !important;
 }
-.theme-bw header {
-  background-color: rgba(0, 0, 0, 0.95) !important;
-  border-color: rgba(255, 255, 255, 0.18) !important;
-}
-.theme-bw .bg-\[\#070e1e\],
-.theme-bw .bg-\[\#091124\],
-.theme-bw .bg-\[\#050a17\] {
-  background-color: #050505 !important;
-}
-.theme-bw .bg-slate-900,
-.theme-bw .bg-slate-900\/90,
-.theme-bw .bg-slate-900\/80,
-.theme-bw .bg-slate-900\/70,
-.theme-bw .bg-slate-950,
-.theme-bw .bg-slate-950\/80,
-.theme-bw .bg-slate-950\/70 {
-  background-color: #0c0c0c !important;
-  border-color: rgba(255, 255, 255, 0.16) !important;
-}
-.theme-bw .text-amber-400,
-.theme-bw .text-amber-300 {
+
+.bg-amber-400 *,
+.bg-amber-500 * {
   color: #ffffff !important;
 }
-.theme-bw .bg-amber-400,
-.theme-bw .hover\:bg-amber-300:hover {
+
+/* Tags and pill chips: subtle light neutral with dark text */
+.bg-amber-400\/10,
+.bg-amber-400\/20,
+.bg-amber-500\/10,
+.bg-amber-500\/20,
+.bg-emerald-400\/10,
+.bg-emerald-500\/10 {
+  background-color: #f4f4f5 !important;
+  border-color: #e4e4e7 !important;
+  color: #09090b !important;
+}
+
+/* Borders */
+.border-slate-800,
+.border-slate-800\/80,
+.border-slate-700,
+.border-slate-700\/80,
+.border-slate-700\/70,
+.border-slate-700\/60,
+.border-amber-400,
+.border-amber-400\/30,
+.border-amber-400\/40,
+.border-amber-400\/50,
+.border-amber-500\/30 {
+  border-color: #e4e4e7 !important;
+}
+
+/* Inputs and textareas */
+input, select, textarea {
   background-color: #ffffff !important;
-  color: #000000 !important;
+  color: #09090b !important;
+  border-color: #d4d4d8 !important;
 }
-.theme-bw .bg-amber-400\/10,
-.theme-bw .bg-amber-400\/20 {
-  background-color: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
-  color: #ffffff !important;
+
+input::placeholder,
+textarea::placeholder {
+  color: #a1a1aa !important;
 }

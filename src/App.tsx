@@ -4,8 +4,6 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { WhatsAppFloatingButton } from './components/WhatsAppFloatingButton';
@@ -174,11 +172,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070e1e] text-slate-100 flex flex-col font-sans selection:bg-amber-400 selection:text-slate-950">
-      {/* Vercel Web Analytics & Speed Insights Integration (§10) */}
-      <Analytics />
-      <SpeedInsights />
-
+    <div className="min-h-screen bg-white text-neutral-900 flex flex-col font-sans selection:bg-black selection:text-white">
       {/* Seamless Transparent Navbar */}
       <Navbar
         currentPath={currentPath}

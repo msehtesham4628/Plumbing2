@@ -13,7 +13,7 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [activeMode, setActiveMode] = useState<'thermal' | 'xray' | 'visual'>(initialMode);
-  const [palette, setPalette] = useState<'ironbow' | 'rainbow' | 'arctic' | 'whitehot'>('ironbow');
+  const [palette, setPalette] = useState<'ironbow' | 'rainbow' | 'arctic' | 'whitehot'>('whitehot');
   const [explodeFactor, setExplodeFactor] = useState<number>(0.2); // 0 to 1
   const [isDockCollapsed, setIsDockCollapsed] = useState<boolean>(false);
   const [inspectDepth, setInspectDepth] = useState<number>(42); // mm
@@ -22,7 +22,7 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
   // Mutable refs for Three.js render loop without React re-renders tearing down canvas
   const stateRef = useRef({
     mode: initialMode,
-    palette: 'ironbow' as 'ironbow' | 'rainbow' | 'arctic' | 'whitehot',
+    palette: 'whitehot' as 'ironbow' | 'rainbow' | 'arctic' | 'whitehot',
     targetExplode: 0.2,
     currentExplode: 0.2,
     cameraAngle: 0.35,
@@ -153,8 +153,8 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
 
     // 2. Setup Scene & Camera
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x070e1e);
-    scene.fog = new THREE.FogExp2(0x070e1e, 0.05);
+    scene.background = new THREE.Color(0xf8fafc);
+    scene.fog = new THREE.FogExp2(0xf8fafc, 0.05);
 
     const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
     camera.position.set(2.8, 1.6, 3.8);
@@ -202,7 +202,7 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
     // Ground Contact Shadow Plane
     const groundGeo = new THREE.PlaneGeometry(10, 10);
     const groundMat = new THREE.MeshStandardMaterial({
-      color: 0x091124,
+      color: 0xf1f5f9,
       roughness: 0.85,
       metalness: 0.1,
     });
@@ -611,7 +611,7 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
 
   return (
     <div
-      className={`relative w-full rounded-2xl overflow-hidden border border-slate-700/60 bg-[#070e1e] shadow-2xl select-none ${
+      className={`relative w-full rounded-2xl overflow-hidden border border-neutral-200 bg-neutral-50 shadow-xl select-none ${
         compact ? 'h-[440px]' : 'h-[580px] lg:h-[660px]'
       }`}
       data-testid="three-thermal-scanner"
@@ -620,28 +620,28 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
       <div ref={mountRef} className="absolute inset-0 w-full h-full cursor-grab active:cursor-grabbing" />
 
       {/* Top Left Diagnostics HUD Pill */}
-      <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5 p-3 rounded-xl bg-slate-900/80 border border-slate-700/70 backdrop-blur-md text-xs pointer-events-none">
+      <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5 p-3 rounded-xl bg-white/95 border border-neutral-200 backdrop-blur-md text-xs pointer-events-none shadow-md">
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-          <span className="font-semibold uppercase tracking-wider text-slate-200">
+          <span className="w-2.5 h-2.5 rounded-full bg-black animate-pulse" />
+          <span className="font-semibold uppercase tracking-wider text-black">
             FLIR 3D Diagnostic Simulator
           </span>
         </div>
-        <div className="flex items-center gap-3 text-slate-400 font-mono text-[11px]">
+        <div className="flex items-center gap-3 text-neutral-600 font-mono text-[11px]">
           <span>Concealed Pipe: CPVC 25mm</span>
           <span>·</span>
           <span>Depth: {inspectDepth}mm</span>
           <span>·</span>
-          <span className="text-cyan-400 font-bold">Cold Anomaly: {detectedDeltaT}</span>
+          <span className="text-black font-bold">Cold Anomaly: {detectedDeltaT}</span>
         </div>
       </div>
 
       {/* Top Right Guidance */}
-      <div className="absolute top-4 right-4 z-10 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/70 border border-slate-800 text-[11px] text-slate-400">
+      <div className="absolute top-4 right-4 z-10 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/90 border border-neutral-200 text-[11px] text-neutral-600 shadow-sm">
         <span>Click & Drag to Rotate 3D Scene</span>
       </div>
 
-      {/* Viewport-First Collapsible Bottom Control Dock (§5 of Three.js guidelines) */}
+      {/* Viewport-First Collapsible Bottom Control Dock */}
       <div
         className={`absolute bottom-3 left-1/2 -translate-x-1/2 z-20 w-[94%] max-w-2xl transition-all duration-300 ease-out ${
           isDockCollapsed ? 'translate-y-[calc(100%-36px)]' : 'translate-y-0'
@@ -651,48 +651,48 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
         <div className="flex justify-center -mb-px">
           <button
             onClick={() => setIsDockCollapsed(!isDockCollapsed)}
-            className="flex items-center gap-1.5 px-3.5 py-1 text-xs font-medium rounded-t-lg bg-slate-900/95 border-t border-x border-slate-700/80 text-slate-300 hover:text-white transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-1 text-xs font-medium rounded-t-lg bg-white border-t border-x border-neutral-200 text-neutral-700 hover:text-black transition-colors cursor-pointer shadow-sm"
             aria-label={isDockCollapsed ? 'Expand 3D Controls Dock' : 'Collapse 3D Controls Dock'}
           >
-            <span>{isDockCollapsed ? '▴ Show Diagnostics Dock' : '▾ Hide Controls (Cinema View)'}</span>
+            <span>{isDockCollapsed ? '▴ Show Diagnostics Dock' : '▾ Hide Controls'}</span>
           </button>
         </div>
 
         {/* Unified Bottom Control Panel */}
-        <div className="p-3.5 rounded-2xl bg-slate-900/95 border border-slate-700/80 shadow-2xl backdrop-blur-md text-slate-200">
+        <div className="p-3.5 rounded-2xl bg-white/95 border border-neutral-200 shadow-xl backdrop-blur-md text-neutral-900">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 items-center">
             {/* Control 1: Inspection View Modes */}
             <div className="flex flex-col gap-1">
-              <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-medium text-neutral-500 uppercase tracking-wider">
                 Inspection Mode
               </span>
-              <div className="grid grid-cols-3 gap-1 p-0.5 rounded-lg bg-slate-950/70 border border-slate-800 text-xs font-medium">
+              <div className="grid grid-cols-3 gap-1 p-0.5 rounded-lg bg-neutral-100 border border-neutral-200 text-xs font-medium">
                 <button
                   onClick={() => setActiveMode('thermal')}
-                  className={`py-1 px-2 rounded-md transition-colors ${
+                  className={`py-1 px-2 rounded-md transition-colors cursor-pointer ${
                     activeMode === 'thermal'
-                      ? 'bg-amber-400 text-slate-950 font-semibold'
-                      : 'text-slate-300 hover:text-white'
+                      ? 'bg-black text-white font-semibold shadow-sm'
+                      : 'text-neutral-600 hover:text-black'
                   }`}
                 >
                   Thermal
                 </button>
                 <button
                   onClick={() => setActiveMode('xray')}
-                  className={`py-1 px-2 rounded-md transition-colors ${
+                  className={`py-1 px-2 rounded-md transition-colors cursor-pointer ${
                     activeMode === 'xray'
-                      ? 'bg-amber-400 text-slate-950 font-semibold'
-                      : 'text-slate-300 hover:text-white'
+                      ? 'bg-black text-white font-semibold shadow-sm'
+                      : 'text-neutral-600 hover:text-black'
                   }`}
                 >
                   X-Ray
                 </button>
                 <button
                   onClick={() => setActiveMode('visual')}
-                  className={`py-1 px-2 rounded-md transition-colors ${
+                  className={`py-1 px-2 rounded-md transition-colors cursor-pointer ${
                     activeMode === 'visual'
-                      ? 'bg-amber-400 text-slate-950 font-semibold'
-                      : 'text-slate-300 hover:text-white'
+                      ? 'bg-black text-white font-semibold shadow-sm'
+                      : 'text-neutral-600 hover:text-black'
                   }`}
                 >
                   Visual
@@ -702,9 +702,9 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
 
             {/* Control 2: Exploded Wall Layer Slider */}
             <div className="flex flex-col gap-1">
-              <div className="flex justify-between text-[11px] text-slate-400 font-medium">
+              <div className="flex justify-between text-[11px] text-neutral-600 font-medium">
                 <span className="uppercase tracking-wider">Exploded Tiles</span>
-                <span className="text-amber-400 font-mono">{Math.round(explodeFactor * 100)}%</span>
+                <span className="text-black font-mono font-bold">{Math.round(explodeFactor * 100)}%</span>
               </div>
               <input
                 type="range"
@@ -713,23 +713,23 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
                 step="0.05"
                 value={explodeFactor}
                 onChange={(e) => setExplodeFactor(parseFloat(e.target.value))}
-                className="w-full accent-amber-400 h-1.5 bg-slate-800 rounded-lg cursor-pointer"
+                className="w-full accent-black h-1.5 bg-neutral-200 rounded-lg cursor-pointer"
                 aria-label="Explode Wall Layers Slider"
               />
             </div>
 
             {/* Control 3: Thermographic Palette Switcher */}
             <div className="flex flex-col gap-1">
-              <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
+              <span className="text-[11px] font-medium text-neutral-500 uppercase tracking-wider">
                 Thermal Palette
               </span>
-              <div className="grid grid-cols-4 gap-1 p-0.5 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px] font-medium">
+              <div className="grid grid-cols-4 gap-1 p-0.5 rounded-lg bg-neutral-100 border border-neutral-200 text-[11px] font-medium">
                 <button
                   onClick={() => setPalette('ironbow')}
-                  className={`py-1 px-1 rounded-md transition-colors truncate ${
+                  className={`py-1 px-1 rounded-md transition-colors truncate cursor-pointer ${
                     palette === 'ironbow'
-                      ? 'bg-gradient-to-r from-purple-600 via-amber-500 to-yellow-300 text-slate-950 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-neutral-800 text-white font-bold shadow-sm'
+                      : 'text-neutral-600 hover:text-black'
                   }`}
                   title="FLIR Ironbow Palette"
                 >
@@ -737,10 +737,10 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
                 </button>
                 <button
                   onClick={() => setPalette('whitehot')}
-                  className={`py-1 px-1 rounded-md transition-colors truncate ${
+                  className={`py-1 px-1 rounded-md transition-colors truncate cursor-pointer ${
                     palette === 'whitehot'
-                      ? 'bg-white text-slate-950 font-bold shadow'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-black text-white font-bold shadow-sm'
+                      : 'text-neutral-600 hover:text-black'
                   }`}
                   title="White & Black (FLIR White Hot)"
                 >
@@ -748,10 +748,10 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
                 </button>
                 <button
                   onClick={() => setPalette('arctic')}
-                  className={`py-1 px-1 rounded-md transition-colors truncate ${
+                  className={`py-1 px-1 rounded-md transition-colors truncate cursor-pointer ${
                     palette === 'arctic'
-                      ? 'bg-sky-500 text-slate-950 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-neutral-700 text-white font-bold'
+                      : 'text-neutral-600 hover:text-black'
                   }`}
                   title="Arctic Cold-Spot Palette"
                 >
@@ -759,10 +759,10 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
                 </button>
                 <button
                   onClick={() => setPalette('rainbow')}
-                  className={`py-1 px-1 rounded-md transition-colors truncate ${
+                  className={`py-1 px-1 rounded-md transition-colors truncate cursor-pointer ${
                     palette === 'rainbow'
-                      ? 'bg-gradient-to-r from-blue-600 via-green-500 to-red-500 text-slate-950 font-bold'
-                      : 'text-slate-400 hover:text-white'
+                      ? 'bg-neutral-900 text-white font-bold'
+                      : 'text-neutral-600 hover:text-black'
                   }`}
                   title="High-Contrast Rainbow Palette"
                 >
