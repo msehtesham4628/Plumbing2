@@ -15,6 +15,24 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState<boolean>(false);
+  const [isMonochrome, setIsMonochrome] = useState<boolean>(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('hydroscan_theme') === 'bw';
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    if (isMonochrome) {
+      document.documentElement.classList.add('theme-bw');
+      document.body.classList.add('theme-bw');
+      localStorage.setItem('hydroscan_theme', 'bw');
+    } else {
+      document.documentElement.classList.remove('theme-bw');
+      document.body.classList.remove('theme-bw');
+      localStorage.setItem('hydroscan_theme', 'navy');
+    }
+  }, [isMonochrome]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -191,8 +209,19 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
           </nav>
 
-          {/* Zone 3: CTA Buttons (Right) - Call Now & WhatsApp */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Zone 3: CTA Buttons (Right) - Call Now & WhatsApp & Theme */}
+          <div className="hidden sm:flex items-center gap-2.5">
+            <button
+              onClick={() => setIsMonochrome(!isMonochrome)}
+              className="flex items-center gap-1.5 px-2.5 py-2 text-xs font-mono font-bold rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700 transition-all hover:scale-[1.02] cursor-pointer"
+              title={isMonochrome ? 'Switch to Signature Navy' : 'Switch to White & Black Mode'}
+              aria-label="Toggle White and Black theme"
+            >
+              <span className={`w-2.5 h-2.5 rounded-full inline-block ${isMonochrome ? 'bg-white shadow' : 'bg-amber-400'}`} />
+              <span className="hidden xl:inline">{isMonochrome ? 'W & B Active' : 'White & Black'}</span>
+              <span className="xl:hidden">{isMonochrome ? 'W&B' : 'B&W'}</span>
+            </button>
+
             <a
               href="tel:+919700189654"
               className="flex items-center gap-2 px-3.5 py-2 text-xs font-semibold rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700 transition-all hover:scale-[1.02] shadow-sm"

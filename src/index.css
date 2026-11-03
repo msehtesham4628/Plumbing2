@@ -34,3 +34,44 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #334155;
 }
+
+/* White & Black High-Contrast Architectural Mode */
+body.theme-bw,
+.theme-bw {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+.theme-bw header {
+  background-color: rgba(0, 0, 0, 0.95) !important;
+  border-color: rgba(255, 255, 255, 0.18) !important;
+}
+.theme-bw .bg-\[\#070e1e\],
+.theme-bw .bg-\[\#091124\],
+.theme-bw .bg-\[\#050a17\] {
+  background-color: #050505 !important;
+}
+.theme-bw .bg-slate-900,
+.theme-bw .bg-slate-900\/90,
+.theme-bw .bg-slate-900\/80,
+.theme-bw .bg-slate-900\/70,
+.theme-bw .bg-slate-950,
+.theme-bw .bg-slate-950\/80,
+.theme-bw .bg-slate-950\/70 {
+  background-color: #0c0c0c !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+.theme-bw .text-amber-400,
+.theme-bw .text-amber-300 {
+  color: #ffffff !important;
+}
+.theme-bw .bg-amber-400,
+.theme-bw .hover\:bg-amber-300:hover {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+.theme-bw .bg-amber-400\/10,
+.theme-bw .bg-amber-400\/20 {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}

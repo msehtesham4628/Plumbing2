@@ -13,7 +13,7 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
 }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [activeMode, setActiveMode] = useState<'thermal' | 'xray' | 'visual'>(initialMode);
-  const [palette, setPalette] = useState<'ironbow' | 'rainbow' | 'arctic'>('ironbow');
+  const [palette, setPalette] = useState<'ironbow' | 'rainbow' | 'arctic' | 'whitehot'>('ironbow');
   const [explodeFactor, setExplodeFactor] = useState<number>(0.2); // 0 to 1
   const [isDockCollapsed, setIsDockCollapsed] = useState<boolean>(false);
   const [inspectDepth, setInspectDepth] = useState<number>(42); // mm
@@ -22,7 +22,7 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
   // Mutable refs for Three.js render loop without React re-renders tearing down canvas
   const stateRef = useRef({
     mode: initialMode,
-    palette: 'ironbow' as 'ironbow' | 'rainbow' | 'arctic',
+    palette: 'ironbow' as 'ironbow' | 'rainbow' | 'arctic' | 'whitehot',
     targetExplode: 0.2,
     currentExplode: 0.2,
     cameraAngle: 0.35,
@@ -49,8 +49,8 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
     updateThermalTexture(palette);
   }, [activeMode, palette, explodeFactor]);
 
-  // Procedural thermal texture generator (creates authentic FLIR Ironbow / Rainbow / Arctic palettes)
-  const updateThermalTexture = useCallback((pal: 'ironbow' | 'rainbow' | 'arctic') => {
+  // Procedural thermal texture generator (creates authentic FLIR Ironbow / Rainbow / Arctic / White & Black palettes)
+  const updateThermalTexture = useCallback((pal: 'ironbow' | 'rainbow' | 'arctic' | 'whitehot') => {
     const canvas = document.createElement('canvas');
     canvas.width = 512;
     canvas.height = 512;
@@ -58,7 +58,7 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
     if (!ctx) return;
 
     // Fill background with baseline wall temp
-    ctx.fillStyle = pal === 'arctic' ? '#111827' : '#030712';
+    ctx.fillStyle = pal === 'arctic' ? '#111827' : pal === 'whitehot' ? '#000000' : '#030712';
     ctx.fillRect(0, 0, 512, 512);
 
     // Create radial thermal moisture anomaly plume centered around concealed leak coordinate
@@ -82,6 +82,13 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
       grad.addColorStop(0.50, '#22c55e');
       grad.addColorStop(0.75, '#06b6d4');
       grad.addColorStop(1.0, '#0f172a');
+    } else if (pal === 'whitehot') {
+      // White & Black (FLIR White Hot Monochrome)
+      grad.addColorStop(0.0, '#ffffff');
+      grad.addColorStop(0.25, '#e2e8f0');
+      grad.addColorStop(0.55, '#64748b');
+      grad.addColorStop(0.80, '#1e293b');
+      grad.addColorStop(1.0, '#020617');
     } else {
       // Arctic Cold Spot (Moisture cooling signature)
       grad.addColorStop(0.0, '#38bdf8');
@@ -716,10 +723,10 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
               <span className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
                 Thermal Palette
               </span>
-              <div className="grid grid-cols-3 gap-1 p-0.5 rounded-lg bg-slate-950/70 border border-slate-800 text-xs font-medium">
+              <div className="grid grid-cols-4 gap-1 p-0.5 rounded-lg bg-slate-950/70 border border-slate-800 text-[11px] font-medium">
                 <button
                   onClick={() => setPalette('ironbow')}
-                  className={`py-1 px-1.5 rounded-md transition-colors truncate ${
+                  className={`py-1 px-1 rounded-md transition-colors truncate ${
                     palette === 'ironbow'
                       ? 'bg-gradient-to-r from-purple-600 via-amber-500 to-yellow-300 text-slate-950 font-bold'
                       : 'text-slate-400 hover:text-white'
@@ -729,8 +736,19 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
                   Ironbow
                 </button>
                 <button
+                  onClick={() => setPalette('whitehot')}
+                  className={`py-1 px-1 rounded-md transition-colors truncate ${
+                    palette === 'whitehot'
+                      ? 'bg-white text-slate-950 font-bold shadow'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                  title="White & Black (FLIR White Hot)"
+                >
+                  W & B
+                </button>
+                <button
                   onClick={() => setPalette('arctic')}
-                  className={`py-1 px-1.5 rounded-md transition-colors truncate ${
+                  className={`py-1 px-1 rounded-md transition-colors truncate ${
                     palette === 'arctic'
                       ? 'bg-sky-500 text-slate-950 font-bold'
                       : 'text-slate-400 hover:text-white'
@@ -741,7 +759,7 @@ export const ThreeThermalScanner: React.FC<ThreeThermalScannerProps> = ({
                 </button>
                 <button
                   onClick={() => setPalette('rainbow')}
-                  className={`py-1 px-1.5 rounded-md transition-colors truncate ${
+                  className={`py-1 px-1 rounded-md transition-colors truncate ${
                     palette === 'rainbow'
                       ? 'bg-gradient-to-r from-blue-600 via-green-500 to-red-500 text-slate-950 font-bold'
                       : 'text-slate-400 hover:text-white'
